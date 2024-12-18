@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"os"
+	"strconv"
 	"sync"
 
 	log "github.com/sirupsen/logrus"
@@ -18,9 +20,10 @@ func GetLogger(filename string) *log.Logger {
 	if ok {
 		return instance.(*log.Logger)
 	}
+	logFileName := "logs/" + filename + "-" + GetPid() + ".log"
 	newInstance := log.New()
 	rotateLogger := &lumberjack.Logger{
-		Filename:   filename,
+		Filename:   logFileName,
 		MaxSize:    200,
 		MaxBackups: 1,
 		MaxAge:     28,
@@ -30,4 +33,8 @@ func GetLogger(filename string) *log.Logger {
 	loggerInstances.Store(filename, newInstance)
 	newInstance.Infof("Logger created for file: %s", filename)
 	return newInstance
+}
+
+func GetPid() string {
+	return strconv.Itoa(os.Getpid())
 }

@@ -15,4 +15,4 @@ EXPOSE 8080
 WORKDIR /
 # Run the webserver binary when the container starts
 CMD ["./backend/webserver"]
-# CMD ["tail", "-f", "/dev/null"]
+
