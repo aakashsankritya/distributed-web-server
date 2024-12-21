@@ -1,0 +1,43 @@
+# General
+*.log
+*.out
+*.swp
+*.swo
+*/out
+# Go binary output
+/bin/
+/obj/
+/*.exe
+/*.exe~
+/*.out
+
+# VSCode
+.vscode/
+
+# Go specific
+# Dependency directories
+/vendor/
+
+# Go build artifacts
+*.test
+*.prof
+
+# Coverage output directory
+.coverage/
+
+# Go module files
+/go.sum
+/go.mod
+
+# IDE files
+.idea/
+
+# MacOS specific
+.DS_Store
+
+# Linux specific
+*.pid
+
+# Windows specific
+Thumbs.db
+

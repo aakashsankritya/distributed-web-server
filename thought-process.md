@@ -77,3 +77,31 @@ Disadvantages:
 
 * Scalability
 - The modular design enables scaling by adding more web servers or increasing Redis capacity.
+
+# Local Installation
+```
+git clone git@github.com:aakashsankritya/distributed-web-server.git
+
+cd distributed-web-server/
+
+make all
+
+```
+
+available options through Makefile
+
+```
+$ make help
+down            Stop and remove containers
+build           Build the Go binary
+clean           Clean logs
+docker-build    Build the Docker image
+up              Start containers using docker-compose
+create-kafka-topic create required topic in kafka
+show-events     get all events published to kafka
+all             Run all steps in sequence
+help            Show available options
+```
+If you have node.js env already setup, you can use `node script.js` to test the webserver
+
+logs can be accessed in `app/logs/` dir.
