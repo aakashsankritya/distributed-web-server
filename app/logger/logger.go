@@ -15,12 +15,17 @@ var (
 	loggerInstances sync.Map
 )
 
-func GetLogger(filename string) *log.Logger {
+func GetLogger(filename string, usePid bool) *log.Logger {
 	instance, ok := loggerInstances.Load(filename)
 	if ok {
 		return instance.(*log.Logger)
 	}
-	logFileName := "logs/" + filename + "-" + GetPid() + ".log"
+	logFileName := "logs/" + filename
+	if usePid {
+		logFileName += "-" + GetPid() + ".log"
+	} else {
+		logFileName += ".log"
+	}
 	newInstance := log.New()
 	rotateLogger := &lumberjack.Logger{
 		Filename:   logFileName,

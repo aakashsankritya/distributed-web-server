@@ -1,25 +1,38 @@
 const axios = require('axios');
 
-// Configuration
-const endpoint = 'http://localhost:8089/api/verve/accept'; // Replace with your server's URL
-const idCount = 100; // Number of unique IDs to use
-const parallelRequests = 500; // Number of concurrent requests
-const requestInterval = 10; // Time between each batch of parallel requests in milliseconds
+const endpoint = 'http://localhost:8089/api/verve/accept';
+const nginxEndpoint = 'http://nginx-dev:8089/api/verve/accept';
 
-// Generate a fixed set of random IDs
+const idCount = 10000; // Total number of unique IDs
+const parallelRequests = 10000; // Number of requests per batch (10K requests per sec / 10)
+// const requestsPerSecond = 10000; // Target 10K requests per second
+const batchInterval = 1000
+
+let successCount = 0;
+let failureCount = 0;
+
 const ids = Array.from({ length: idCount }, () => `${Math.floor(Math.random() * 1000000)}`);
 
-// Function to send a GET request for a specific ID
-async function sendRequest(id) {
+async function sendRequest(id, passEndpoint = false) {
     try {
-        const response = await axios.get(endpoint, { params: { id } });
-        console.log(`Request sent for id: ${id}, Response: ${response.data}`);
+        const params = { id };
+        if (passEndpoint) {
+            params.endpoint = endpoint
+        }
+        const response = await axios.get(endpoint, { params: params });
+        if (response.status === 200) {
+            successCount++;
+            console.log(`Request sent for id: ${id}, Response: ${response.data}`);
+        } else {
+            failureCount++;
+            console.error(`Request failed for id: ${id}, Response status: ${response.status}`);
+        }
     } catch (error) {
+        failureCount++;
         console.error(`Error sending request for id: ${id}`, error.message);
     }
 }
 
-// Function to start parallel requests
 async function sendParallelRequests() {
     while (true) {
         console.log('Starting a batch of parallel requests...');
@@ -31,15 +44,19 @@ async function sendParallelRequests() {
             promises.push(sendRequest(id));
         }
 
+        // for (let i = 0; i < parallelRequests * 0.10; i++) {
+        //     // Pick a random ID from the list
+        //     const id = ids[Math.floor(Math.random() * ids.length)];
+        //     promises.push(sendRequest(id, true));
+        // }
         // Wait for all requests in this batch to complete
         await Promise.all(promises);
-
-        // Wait before sending the next batch
-        await new Promise(resolve => setTimeout(resolve, requestInterval));
+        console.log(`Requests processed: ${successCount + failureCount}, Successes: ${successCount}, Failures: ${failureCount}`);
+        // Wait to maintain the desired requests per second
+        await new Promise(resolve => setTimeout(resolve, batchInterval));
     }
 }
 
-// Start the parallel request loop
 console.log(`Generated IDs: ${ids.join(', ')}`);
 console.log('Starting to send parallel requests...');
 sendParallelRequests();
