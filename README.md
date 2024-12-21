@@ -66,6 +66,7 @@ Disadvantages:
 - Requires Redis as an external dependency.
 
 # Webserver Design
+* High Performance
 - Designed to handle 10K requests/sec using a worker pool model:
 - The worker pool is configurable based on available resources (CPU, memory).
 - Workers process requests concurrently, ensuring optimal throughput.
