@@ -3,7 +3,8 @@
 *.out
 *.swp
 *.swo
-*/out
+app/out/*
+
 # Go binary output
 /bin/
 /obj/
