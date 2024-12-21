@@ -4,6 +4,7 @@
 *.swp
 *.swo
 app/out/*
+./app/out/webserver
 
 # Go binary output
 /bin/
