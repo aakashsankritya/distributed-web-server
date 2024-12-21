@@ -12,6 +12,7 @@ build: ## Build the Go binary
 # Clean logs
 clean: ## Clean logs
 	rm -rf logs/*
+	mkdir -p logs
 
 # Build the Docker image
 docker-build: ## Build the Docker image
