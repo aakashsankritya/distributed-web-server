@@ -1,4 +1,0 @@
-time="2024-12-18T00:13:17+05:30" level=info msg="Logger created for file: webserver.log"
-time="2024-12-18T00:13:17+05:30" level=info msg="Server is running on port :8080"
-time="2024-12-18T00:13:54+05:30" level=info msg="Received termination signal, shutting down gracefully..."
-time="2024-12-18T00:13:54+05:30" level=info msg="HTTP server shutdown successfully"
