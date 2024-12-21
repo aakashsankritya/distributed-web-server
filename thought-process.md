@@ -85,6 +85,8 @@ cd distributed-web-server/
 
 make all
 
+# server should be up at localhost:8089
+# Use: curl -i -X GET 'localhost:8080/api/verve/accept?id=12349856' to send a request to the server
 ```
 
 available options through Makefile
