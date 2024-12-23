@@ -1,5 +1,5 @@
 ## Distributed web-server
-The distributed web server is designed to:
+The distributed web server is designed for:
 
 - deduplicating unique request based on id 
 - calling endpoints if provided
@@ -24,10 +24,10 @@ I came accross multiple approaches for the above requirements:
     - Logs events to a file or Kafka.
 
 * Advantages:
-- Simple design with no dependency on external services.
+    - Simple design with no dependency on external services.
 * Disadvantages:
-- Time-Consuming: Aggregation across servers adds latency.
-- Non-Durable: If a server crashes, the in-memory data is lost, leading to event loss.
+    - Time-Consuming: Aggregation across servers adds latency.
+    - Non-Durable: If a server crashes, the in-memory data is lost, leading to event loss.
 
 # Approach 2: Enhanced In-Memory with Write-Ahead Logging (WAL) 
 
@@ -38,11 +38,11 @@ I came accross multiple approaches for the above requirements:
     - Logs events to a file or Kafka.
 
 * Advantages:
-- Adds durability through WAL, reducing data loss risks.
+    - Adds durability through WAL, reducing data loss risks.
 
 * Disadvantages:
-- Slightly more complex than Approach 1.
-- Coordination overhead persists, potentially impacting performance.
+    - Slightly more complex than Approach 1.
+    - Coordination overhead persists, potentially impacting performance.
 
 # Final Approach: Redis-Centric Deduplication
 
@@ -58,12 +58,12 @@ I came accross multiple approaches for the above requirements:
     - The Redis lock ensures only one server performs aggregation at a time.
 
 * Advantages:
-- Durable: Redis persists data, minimizing event loss.
-- Efficient: Eliminates inter-server communication for deduplication.
-- Scalable: Suitable for high-load scenarios with >10K requests/sec.
+    - Durable: Redis persists data, minimizing event loss.
+    - Efficient: Eliminates inter-server communication for deduplication.
+    - Scalable: Suitable for high-load scenarios with >10K requests/sec.
 
 Disadvantages:
-- Requires Redis as an external dependency.
+    - Requires Redis as an external dependency.
 
 # Webserver Design
 - Designed to handle 10K requests/sec using a worker pool model:
@@ -71,11 +71,11 @@ Disadvantages:
 - Workers process requests concurrently, ensuring optimal throughput.
 
 * Load Balancing
-- Nginx distributes incoming requests across N web server instances.
-- This ensures even load distribution and high availability.
+    - Nginx distributes incoming requests across N web server instances.
+    - This ensures even load distribution and high availability.
 
 * Scalability
-- The modular design enables scaling by adding more web servers or increasing Redis capacity.
+    - The modular design enables scaling by adding more web servers or increasing Redis capacity.
 
 # Local Installation
 ```
